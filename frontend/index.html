@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#800000">
+  <meta name="description" content="IskoLib library management UI prototype for PUP.">
+  <title>IskoLib — Library Management</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <section class="login-screen" id="login-screen" aria-labelledby="login-title">
+    <form class="login-card" id="login-form">
+      <img class="login-mascot mascot-float" src="../assets/pup-mascot.png" alt="PUP puppy mascot wearing a maroon and gold graduation outfit">
+      <div class="login-brand">
+        <img src="../assets/PUPLogo.png" alt="PUP Logo">
+        <span>IskoLib</span>
+      </div>
+      <h1 id="login-title">Welcome to IskoLib</h1>
+      <p class="login-subtitle">Sign in to continue to the PUP library portal.</p>
+      <div class="login-fields">
+        <div class="login-field">
+          <label for="login-username">Username</label>
+          <input id="login-username" name="username" type="text" autocomplete="username" placeholder="Enter your username" required>
+        </div>
+        <div class="login-field">
+          <label for="login-password">Password</label>
+          <input id="login-password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
+        </div>
+        <div class="login-field">
+          <label for="login-role">Role</label>
+          <select id="login-role" name="role" required>
+            <option value="admin">Admin</option>
+            <option value="student">Student</option>
+          </select>
+        </div>
+      </div>
+      <button class="login-submit" type="submit">Sign in</button>
+      <p class="login-error" id="login-error" role="alert" hidden></p>
+    </form>
+  </section>
+
+  <div class="app-shell" id="app-container" hidden>
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="IskoLib home" data-navigate="dashboard">
+        <img src="../assets/PUPLogo.png" alt="PUP Logo">
+        <span>IskoLib</span>
+      </a>
+
+      <p class="nav-label">Library menu</p>
+      <nav aria-label="Main navigation">
+        <button class="nav-link" type="button" data-navigate="dashboard" data-role="admin" aria-current="page">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="11" width="7" height="10" rx="1"/><rect x="3" y="14" width="8" height="7" rx="1"/></svg>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-link" type="button" data-navigate="dashboard" data-role="student" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="11" width="7" height="10" rx="1"/><rect x="3" y="14" width="8" height="7" rx="1"/></svg>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-link" type="button" data-navigate="books" data-role="admin">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5c2.8-.9 5.5-.4 8 1.3v13c-2.5-1.7-5.2-2.2-8-1.3z"/><path d="M20 5.5c-2.8-.9-5.5-.4-8 1.3v13c2.5-1.7 5.2-2.2 8-1.3z"/></svg>
+          <span>Books</span>
+        </button>
+        <button class="nav-link" type="button" data-navigate="students" data-role="admin">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.4-3.7 2.2-5.5 5.5-5.5s5.1 1.8 5.5 5.5M16 5.5a3 3 0 0 1 0 5.8M17 14.5c2.3.6 3.5 2.4 3.7 5.5"/></svg>
+          <span>Students</span>
+        </button>
+        <button class="nav-link" type="button" data-navigate="add-book" data-role="admin">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5c2.8-.9 5.5-.4 8 1.3v13c-2.5-1.7-5.2-2.2-8-1.3z"/><path d="M20 5.5c-2.8-.9-5.5-.4-8 1.3v13c2.5-1.7 5.2-2.2 8-1.3z"/><path d="M17 3v6M14 6h6"/></svg>
+          <span>Add Book</span>
+        </button>
+        <button class="nav-link" type="button" data-navigate="return" data-role="admin">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7H8m4-4L8 7l4 4M4 17h12m-4-4 4 4-4 4"/></svg>
+          <span>Return</span>
+        </button>
+        <button class="nav-link" type="button" data-navigate="search-books" data-role="student" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
+          <span>Search Books</span>
+        </button>
+        <button class="nav-link" type="button" data-navigate="my-borrowed" data-role="student" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5c2.8-.9 5.5-.4 8 1.3v13c-2.5-1.7-5.2-2.2-8-1.3z"/><path d="M20 5.5c-2.8-.9-5.5-.4-8 1.3v13c2.5-1.7 5.2-2.2 8-1.3z"/></svg>
+          <span>My Borrowed Books</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <button class="nav-link logout-button" id="logout-button" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h5M15 16l4-4-4-4M19 12H9"/></svg>
+          <span>Logout</span>
+        </button>
+        <p>Polytechnic University of the Philippines<br>Library Management UI</p>
+      </div>
+    </aside>
+
+    <main>
+      <header class="main-header">
+        <div>
+          <h1 id="view-title">Dashboard</h1>
+          <p id="view-description">A quick overview of the library collection.</p>
+        </div>
+      </header>
+
+      <div class="main-content">
+        <section class="view" id="view-dashboard" aria-labelledby="view-title">
+          <div class="dashboard-banner">
+            <div class="dashboard-banner-copy">
+              <span class="eyebrow">PUP Library</span>
+              <h2>Welcome back, <span id="dashboard-welcome-name">Isko</span>!</h2>
+              <p>Ready to hit the books? Your next great read is waiting.</p>
+            </div>
+            <img class="dashboard-mascot mascot-float" src="../assets/pup-mascot.png" alt="PUP puppy mascot holding a diploma">
+          </div>
+          <div class="stats-grid" data-role="admin">
+            <article class="stat-card">
+              <div class="stat-topline">
+                <p class="stat-label">Total Books</p>
+                <span class="stat-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5.5c2.8-.9 5.5-.4 8 1.3v13c-2.5-1.7-5.2-2.2-8-1.3z"/><path d="M20 5.5c-2.8-.9-5.5-.4-8 1.3v13c2.5-1.7 5.2-2.2 8-1.3z"/></svg></span>
+              </div>
+              <p class="stat-value" id="stat-books">–</p>
+              <p class="stat-note">Across all collections</p>
+            </article>
+            <article class="stat-card">
+              <div class="stat-topline">
+                <p class="stat-label">Total Students</p>
+                <span class="stat-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.4-3.7 2.2-5.5 5.5-5.5s5.1 1.8 5.5 5.5M16 5.5a3 3 0 0 1 0 5.8M17 14.5c2.3.6 3.5 2.4 3.7 5.5"/></svg></span>
+              </div>
+              <p class="stat-value" id="stat-students">–</p>
+              <p class="stat-note">Registered library members</p>
+            </article>
+            <article class="stat-card">
+              <div class="stat-topline">
+                <p class="stat-label">Borrowed Books</p>
+                <span class="stat-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h12M12 3l4 4-4 4M20 17H8m4-4-4 4 4 4"/></svg></span>
+              </div>
+              <p class="stat-value" id="stat-borrowed">–</p>
+              <p class="stat-note">Currently checked out</p>
+            </article>
+          </div>
+          <div data-role="student" hidden>
+            <article class="stat-card student-stat">
+              <div class="stat-topline">
+                <p class="stat-label">My Borrowed Books</p>
+                <span class="stat-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5.5c2.8-.9 5.5-.4 8 1.3v13c-2.5-1.7-5.2-2.2-8-1.3z"/><path d="M20 5.5c-2.8-.9-5.5-.4-8 1.3v13c2.5-1.7 5.2-2.2 8-1.3z"/></svg></span>
+              </div>
+              <p class="stat-value" id="stat-my-borrowed">–</p>
+              <p class="stat-note">Books currently checked out</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-books" aria-labelledby="view-title" hidden>
+          <div class="section-toolbar">
+            <label class="search-field">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
+              <input id="admin-book-search" type="search" placeholder="Search books..." aria-label="Search books">
+            </label>
+            <button class="button" type="button" data-navigate="add-book">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+              Add Book
+            </button>
+          </div>
+          <div class="book-card-grid" id="book-grid" aria-label="Books in the collection">
+            <article class="book-card">
+              <div class="book-cover"><span>Noli Me<br>Tangere</span></div>
+              <div class="book-card-content">
+                <h2>Noli Me Tangere</h2>
+                <p class="book-card-author">Jose Rizal</p>
+                <span class="book-genre">Filipiniana</span>
+                <p class="book-quantity">Available: <strong>24</strong></p>
+                <div class="book-card-actions">
+                  <button class="button button-secondary" type="button">Edit</button>
+                  <button class="button button-secondary button-danger" type="button">Delete</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="book-card">
+              <div class="book-cover"><span>The Sociological<br>Imagination</span></div>
+              <div class="book-card-content">
+                <h2>The Sociological Imagination</h2>
+                <p class="book-card-author">C. Wright Mills</p>
+                <span class="book-genre">Social Sciences</span>
+                <p class="book-quantity">Available: <strong>12</strong></p>
+                <div class="book-card-actions">
+                  <button class="button button-secondary" type="button">Edit</button>
+                  <button class="button button-secondary button-danger" type="button">Delete</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="book-card">
+              <div class="book-cover"><span>The Design of<br>Everyday Things</span></div>
+              <div class="book-card-content">
+                <h2>The Design of Everyday Things</h2>
+                <p class="book-card-author">Don Norman</p>
+                <span class="book-genre">Technology</span>
+                <p class="book-quantity">Available: <strong>8</strong></p>
+                <div class="book-card-actions">
+                  <button class="button button-secondary" type="button">Edit</button>
+                  <button class="button button-secondary button-danger" type="button">Delete</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="book-card">
+              <div class="book-cover"><span>Pedagogy of<br>the Oppressed</span></div>
+              <div class="book-card-content">
+                <h2>Pedagogy of the Oppressed</h2>
+                <p class="book-card-author">Paulo Freire</p>
+                <span class="book-genre">Education</span>
+                <p class="book-quantity">Available: <strong>16</strong></p>
+                <div class="book-card-actions">
+                  <button class="button button-secondary" type="button">Edit</button>
+                  <button class="button button-secondary button-danger" type="button">Delete</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="book-card">
+              <div class="book-cover"><span>Ways of<br>Seeing</span></div>
+              <div class="book-card-content">
+                <h2>Ways of Seeing</h2>
+                <p class="book-card-author">John Berger</p>
+                <span class="book-genre">Fine Arts</span>
+                <p class="book-quantity">Available: <strong>5</strong></p>
+                <div class="book-card-actions">
+                  <button class="button button-secondary" type="button">Edit</button>
+                  <button class="button button-secondary button-danger" type="button">Delete</button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-students" aria-labelledby="view-title" hidden>
+          <div class="section-toolbar">
+            <span></span>
+            <button class="button" type="button" id="add-student-button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+              Add Student
+            </button>
+          </div>
+          <div class="student-card-grid" id="student-grid" aria-label="Students">
+            <article class="student-card">
+              <div class="student-card-profile">
+                <span class="student-avatar" aria-hidden="true">AS</span>
+                <div>
+                  <h2>Andrea Santos</h2>
+                  <p class="student-id">2024-00124</p>
+                </div>
+              </div>
+              <p class="student-course">BS Information Technology</p>
+              <span class="student-borrowed">2 Books Borrowed</span>
+              <div class="student-card-actions">
+                <button class="button button-secondary" type="button">Edit</button>
+                <button class="button button-secondary student-delete" type="button">Delete</button>
+              </div>
+            </article>
+
+            <article class="student-card">
+              <div class="student-card-profile">
+                <span class="student-avatar" aria-hidden="true">MD</span>
+                <div>
+                  <h2>Mark Dela Cruz</h2>
+                  <p class="student-id">2023-00817</p>
+                </div>
+              </div>
+              <p class="student-course">BA Communication</p>
+              <span class="student-borrowed">1 Book Borrowed</span>
+              <div class="student-card-actions">
+                <button class="button button-secondary" type="button">Edit</button>
+                <button class="button button-secondary student-delete" type="button">Delete</button>
+              </div>
+            </article>
+
+            <article class="student-card">
+              <div class="student-card-profile">
+                <span class="student-avatar" aria-hidden="true">BV</span>
+                <div>
+                  <h2>Bea Villanueva</h2>
+                  <p class="student-id">2024-00309</p>
+                </div>
+              </div>
+              <p class="student-course">BS Accountancy</p>
+              <span class="student-borrowed">1 Book Borrowed</span>
+              <div class="student-card-actions">
+                <button class="button button-secondary" type="button">Edit</button>
+                <button class="button button-secondary student-delete" type="button">Delete</button>
+              </div>
+            </article>
+
+            <article class="student-card">
+              <div class="student-card-profile">
+                <span class="student-avatar" aria-hidden="true">JR</span>
+                <div>
+                  <h2>Joshua Reyes</h2>
+                  <p class="student-id">2022-01242</p>
+                </div>
+              </div>
+              <p class="student-course">BS Education</p>
+              <span class="student-borrowed">0 Books Borrowed</span>
+              <div class="student-card-actions">
+                <button class="button button-secondary" type="button">Edit</button>
+                <button class="button button-secondary student-delete" type="button">Delete</button>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-add-book" aria-labelledby="view-title" data-role="admin" hidden>
+          <form class="form-card" id="book-form">
+            <h2 id="book-form-title">Add a book</h2>
+            <p>Enter the book details to add a title to the library collection.</p>
+            <div class="form-fields">
+              <div class="field">
+                <label for="new-book-title">Book Title</label>
+                <input class="field-control" id="new-book-title" type="text" placeholder="Enter book title">
+              </div>
+              <div class="field">
+                <label for="new-book-author">Author</label>
+                <input class="field-control" id="new-book-author" type="text" placeholder="Enter author name">
+              </div>
+              <div class="field">
+                <label for="new-book-genre">Genre</label>
+                <select class="field-control" id="new-book-genre">
+                  <option value="">Select a genre</option>
+                  <option>Filipiniana</option>
+                  <option>Social Sciences</option>
+                  <option>Law</option>
+                  <option>Technology</option>
+                  <option>Education</option>
+                  <option>Language and Literature</option>
+                  <option>History</option>
+                  <option>Fine Arts</option>
+                  <option>Sciences</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="new-book-quantity">Quantity</label>
+                <input class="field-control" id="new-book-quantity" type="number" min="1" step="1" value="1" placeholder="Enter number of copies">
+              </div>
+            </div>
+            <p class="form-message" id="book-form-message" hidden></p>
+            <button class="button" type="submit" id="book-form-submit">Add Book</button>
+          </form>
+        </section>
+
+        <section class="view" id="view-return" aria-labelledby="view-title" hidden>
+          <div class="panel table-wrap">
+            <table id="return-table">
+              <thead><tr><th>Student Name</th><th>Book Title</th><th>Date Borrowed</th><th>Quantity</th><th>Actions</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="view" id="view-search-books" aria-labelledby="view-title" hidden>
+          <div class="section-toolbar">
+            <label class="search-field search-field--wide">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
+              <input id="student-book-search" type="search" placeholder="Search by title, author, or genre..." aria-label="Search available books">
+            </label>
+          </div>
+          <div class="student-book-grid" id="student-book-grid">
+            <article class="student-book">
+              <div class="student-book-cover" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M10 10c5-2 10-1 14 2v25c-4-3-9-4-14-2z"/><path d="M38 10c-5-2-10-1-14 2v25c4-3 9-4 14-2z"/><path d="M24 12v25"/></svg></div>
+              <h3>Noli Me Tangere</h3><p>Jose Rizal · Filipiniana</p><button class="button button-secondary" type="button">Request to Borrow</button>
+            </article>
+            <article class="student-book">
+              <div class="student-book-cover" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M10 10c5-2 10-1 14 2v25c-4-3-9-4-14-2z"/><path d="M38 10c-5-2-10-1-14 2v25c4-3 9-4 14-2z"/><path d="M24 12v25"/></svg></div>
+              <h3>The Sociological Imagination</h3><p>C. Wright Mills · Social Sciences</p><button class="button button-secondary" type="button">Request to Borrow</button>
+            </article>
+            <article class="student-book">
+              <div class="student-book-cover" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M10 10c5-2 10-1 14 2v25c-4-3-9-4-14-2z"/><path d="M38 10c-5-2-10-1-14 2v25c4-3 9-4 14-2z"/><path d="M24 12v25"/></svg></div>
+              <h3>Ways of Seeing</h3><p>John Berger · Fine Arts</p><button class="button button-secondary" type="button">Request to Borrow</button>
+            </article>
+            <article class="student-book">
+              <div class="student-book-cover" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M10 10c5-2 10-1 14 2v25c-4-3-9-4-14-2z"/><path d="M38 10c-5-2-10-1-14 2v25c4-3 9-4 14-2z"/><path d="M24 12v25"/></svg></div>
+              <h3>Pedagogy of the Oppressed</h3><p>Paulo Freire · Education</p><button class="button button-secondary" type="button">Request to Borrow</button>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-my-borrowed" aria-labelledby="view-title" hidden>
+          <div class="panel table-wrap">
+            <table id="borrowed-table">
+              <thead><tr><th>Book Title</th><th>Author</th><th>Date Borrowed</th><th>Due Date</th><th>Actions</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <dialog id="student-dialog" class="app-dialog">
+    <form class="form-card" id="student-form" method="dialog">
+      <h2>Add a student</h2>
+      <div class="form-fields">
+        <div class="field"><label for="ns-id">Student No.</label><input class="field-control" id="ns-id" required placeholder="2024-00000"></div>
+        <div class="field"><label for="ns-name">Full name</label><input class="field-control" id="ns-name" required></div>
+        <div class="field"><label for="ns-course">Course</label><input class="field-control" id="ns-course" required></div>
+        <div class="field"><label for="ns-username">Username</label><input class="field-control" id="ns-username" required></div>
+        <div class="field"><label for="ns-password">Password</label><input class="field-control" id="ns-password" type="password" required minlength="6"></div>
+      </div>
+      <p class="form-message" id="student-form-message" hidden></p>
+      <div class="student-card-actions">
+        <button class="button" type="submit">Save</button>
+        <button class="button button-secondary" type="button" id="student-cancel">Cancel</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
